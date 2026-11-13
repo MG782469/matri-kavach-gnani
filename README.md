@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ Matri-Kavach Vaani
+# 🛡️ Matri-Kavach Vaani-GNANI AI HACKATHON
 
 ### A Hindi voice assistant for maternal-emergency referrals that won't let a wrong digit through.
 
