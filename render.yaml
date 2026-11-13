@@ -15,5 +15,5 @@ services:
         value: '1'
       - key: CASE_DB_PATH
         value: /tmp/matri-vaani-demo.sqlite3
-      - key: DEMO_ACCESS_PASSWORD
-        sync: false
+      - key: DEMO_OPEN
+        value: '1'

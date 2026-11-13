@@ -279,7 +279,7 @@ py -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 <details>
 <summary><b>🌐 Deploy a public preview</b> (Render, free tier)</summary>
 
-`render.yaml` is included. The public preview runs in **mock mode** (no Gnani key, no credits used) behind a shared password, and refuses to start without one.
+`render.yaml` is included. The public preview runs in **mock mode** (no Gnani key, no credits used, fictional data only). With `DEMO_OPEN=1` anyone can open it, no password. Without it, the preview asks for a shared password and refuses to start without one.
 
 | Environment variable | Value |
 |---|---|
@@ -287,12 +287,12 @@ py -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 | `GNANI_MODE` | `mock` |
 | `DEMO_PUBLIC` | `1` |
 | `CASE_DB_PATH` | `/tmp/matri-vaani-demo.sqlite3` |
-| `DEMO_ACCESS_PASSWORD` | a unique password of 16+ characters (secret) |
+| `DEMO_OPEN` | `1` (open to everyone; remove it to require `DEMO_ACCESS_PASSWORD`, 16+ characters, secret) |
 
 - **Build:** `pip install -r requirements.txt`
 - **Start:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 - **Health check path:** `/api/health`
-- Visitors log in with the username `demo`, then each role phone logs in separately with its one-time code.
+- Each role phone still logs in separately with its one-time code. (Password mode only: visitors first log in with the username `demo`.)
 
 See [docs/STAGE10_DEPLOYMENT.md](docs/STAGE10_DEPLOYMENT.md).
 

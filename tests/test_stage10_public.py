@@ -4,7 +4,7 @@ import os
 import unittest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
-from app.deploy_guard import public_mode, validate_public_config, correct_basic_auth
+from app.deploy_guard import public_mode, open_mode, validate_public_config, correct_basic_auth
 from app.main import app
 
 class PublicDemoTests(unittest.TestCase):
@@ -36,6 +36,22 @@ class PublicDemoTests(unittest.TestCase):
             self.assertEqual(yes.status_code,200)
             self.assertEqual(yes.headers['cache-control'],'no-store')
             self.assertEqual(yes.headers['x-content-type-options'],'nosniff')
+
+    def test_open_mode_needs_no_password_but_stays_mock_only(self):
+        env={'DEMO_PUBLIC':'1','DEMO_OPEN':'1','GNANI_MODE':'mock','DEMO_ACCESS_PASSWORD':''}
+        with patch.dict(os.environ,env,clear=False):
+            validate_public_config()
+            client=TestClient(app)
+            self.assertEqual(client.get('/').status_code,200)
+            cfg=client.get('/api/config')
+            self.assertEqual(cfg.status_code,200)
+            self.assertTrue(cfg.json()['public_preview'])
+            response=client.post('/api/cases/no-case/handoff/demo',json={'expected_version':0,'scenario':'bleeding','acknowledged_synthetic_only':True})
+            self.assertEqual(response.status_code,403)
+        with patch.dict(os.environ,{**env,'GNANI_MODE':'live'},clear=False):
+            with self.assertRaises(ValueError):validate_public_config()
+        with patch.dict(os.environ,{'DEMO_PUBLIC':'0','DEMO_OPEN':'1'},clear=False):
+            self.assertFalse(open_mode())
 
     def test_public_handoff_blocked_without_network(self):
         env={'DEMO_PUBLIC':'1','GNANI_MODE':'mock','DEMO_ACCESS_PASSWORD':'a-unique-password-very-long'}

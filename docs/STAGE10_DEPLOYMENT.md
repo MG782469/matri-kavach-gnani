@@ -6,11 +6,11 @@ Two deliberately separate operating modes:
 
 **Local developer demo (preferred for live Gnani evidence).** Run on `127.0.0.1`, `GNANI_MODE=live`, with a server-side `GNANI_API_KEY`. Synthetic recordings ONLY. Isolated Matri-Kavach demo handoff can be shown. The private key must not be sent to the browser, GitHub or shared video.
 
-**Public preview (mock, password protected).** Set `DEMO_PUBLIC=1`, `GNANI_MODE=mock`, and a secret `DEMO_ACCESS_PASSWORD` of at least 16 characters. This public-mode configuration fails fast if live Gnani is enabled. Browser login is HTTP Basic (username `demo`), which requires HTTPS. Real TTS, STT and the remote Express handoff are disabled. This intentionally differs from the local live walkthrough.
+**Public preview (mock).** Set `DEMO_PUBLIC=1` and `GNANI_MODE=mock`. Add `DEMO_OPEN=1` for an open preview without a password (still mock-only, synthetic data, no Gnani key). Otherwise set a secret `DEMO_ACCESS_PASSWORD` of at least 16 characters. This public-mode configuration fails fast if live Gnani is enabled. Browser login is HTTP Basic (username `demo`), which requires HTTPS. Real TTS, STT and the remote Express handoff are disabled. This intentionally differs from the local live walkthrough.
 
 ## Suggested Render blueprint (manual setup)
 
-The included `render.yaml` sets `DEMO_PUBLIC=1`, `GNANI_MODE=mock`, `CASE_DB_PATH=/tmp/matri-vaani-demo.sqlite3`. Create a new Render web service from the repo, review the blueprint, and set `DEMO_ACCESS_PASSWORD` as a **secret environment variable**. Do not commit its value. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Health path: `/api/health` (returns no personal data).
+The included `render.yaml` sets `DEMO_PUBLIC=1`, `DEMO_OPEN=1`, `GNANI_MODE=mock`, `CASE_DB_PATH=/tmp/matri-vaani-demo.sqlite3`. For a password-protected preview instead, remove `DEMO_OPEN` and set `DEMO_ACCESS_PASSWORD` as a **secret environment variable**. Do not commit its value. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Health path: `/api/health` (returns no personal data).
 
 Render filesystem persistence depends on plan/disk configuration. The sample free deployment uses **ephemeral SQLite**, so all demo cases may be lost on restart. Run one process/one worker for the local SQLite store. Do not use this as a multi-instance clinical system.
 
