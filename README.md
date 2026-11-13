@@ -16,7 +16,7 @@ An ASHA worker **speaks** the referral. **Vaani** finds what is missing or contr
 ![Data](https://img.shields.io/badge/data-synthetic%20only-f0a500?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
-**🎥 [Demo video](#) · 💼 [LinkedIn post](#) · 🐦 [X post](#) · 🌐 [Live preview](#)**
+**🎥 [Demo video](https://youtu.be/4uH6roD3MXU) · 💼 [LinkedIn post]() · 🌐 [Live preview](https://matri-kavach-gnani.onrender.com/chat)**
 
 *Built for the **Great Indian AI Internship Challenge** by Gnani AI.*
 
